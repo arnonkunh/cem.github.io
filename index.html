@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>เปิดกล้องถ่ายภาพ</title>
+</head>
+<body>
+  <script>
+    function openCamera() {
+      // เรียกใช้ API ของ navigator.mediaDevices.getUserMedia() เพื่อขอสิทธิ์เข้าถึงกล้อง
+      navigator.mediaDevices.getUserMedia({
+        video: {
+    facingMode: 'environment'
+  }
+      }).then(function(stream) {
+        // แสดงวิดีโอจากกล้อง
+        document.querySelector("#video").srcObject = stream;
+      }).catch(function(error) {
+        // แสดงข้อความแจ้งข้อผิดพลาด
+        console.log(error);
+      });
+    }
+    function takePicture() {
+      // ถ่ายภาพจากกล้อง
+      var canvas = document.querySelector("#canvas");
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(document.querySelector("#video"), 0, 0, canvas.width, canvas.height);
+      var dataURL = canvas.toDataURL();
+      // บันทึกภาพลงในไฟล์
+      var blob = new Blob([dataURL], {type: "image/png"});
+      saveAs(blob, "image.png");
+    }
+  </script>
+  <button onclick="openCamera()">เปิดกล้อง</button>
+  <button onclick="takePicture()">ถ่ายภาพ</button>
+  <video id="video" width="320" height="240" autoplay></video>
+  <canvas id="canvas" width="320" height="240"></canvas>
+</body>
+</html>
