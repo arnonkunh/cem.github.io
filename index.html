@@ -10,7 +10,10 @@
       // เรียกใช้ API ของ navigator.mediaDevices.getUserMedia() เพื่อขอสิทธิ์เข้าถึงกล้อง
       navigator.mediaDevices.getUserMedia({
         video: {
-    facingMode: 'environment'
+    facingMode: 'environment',
+    frameRate: { ideal: 60, max: 60 },
+    width:{ideal:1920, max: 1920},
+    height:{ideal:1080, max: 1080}
   }
       }).then(function(stream) {
         // แสดงวิดีโอจากกล้อง
